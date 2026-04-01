@@ -36,7 +36,6 @@ int   proximo_id = 1;
 
 /* ===== PROTÓTIPOS ===== */
 
-void  limpar_tela();
 void  pausar();
 void  menu_principal();
 void  cadastrar_multa();
@@ -45,7 +44,6 @@ void  buscar_por_placa();
 void  buscar_por_cpf();
 void  excluir_multa();
 void  alterar_status();
-void  relatorio_resumo();
 void  salvar_arquivo();
 void  carregar_arquivo();
 void  exibir_multa(Multa m);
@@ -53,14 +51,6 @@ int   validar_cpf(const char *cpf);
 int   validar_placa(const char *placa);
 
 /* ===== FUNÇÕES UTILITÁRIAS ===== */
-
-void limpar_tela() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
 
 void pausar() {
     printf("\nPressione ENTER para continuar...");
@@ -140,7 +130,7 @@ void carregar_arquivo() {
 /* ===== CADASTRO ===== */
 
 void cadastrar_multa() {
-    limpar_tela();
+
     printf("=== CADASTRAR NOVA MULTA ===\n\n");
 
     if (total >= MAX_MULTAS) {
@@ -209,7 +199,7 @@ void cadastrar_multa() {
 /* ===== LISTAGEM ===== */
 
 void listar_multas() {
-    limpar_tela();
+
     printf("=== LISTA DE MULTAS ===\n\n");
 
     if (total == 0) {
@@ -231,7 +221,7 @@ void listar_multas() {
 /* ===== BUSCA POR PLACA ===== */
 
 void buscar_por_placa() {
-    limpar_tela();
+    
     printf("=== BUSCAR POR PLACA ===\n\n");
 
     char placa[8];
@@ -261,7 +251,7 @@ void buscar_por_placa() {
 /* ===== BUSCA POR CPF ===== */
 
 void buscar_por_cpf() {
-    limpar_tela();
+    
     printf("=== BUSCAR POR CPF ===\n\n");
 
     char cpf[15];
@@ -286,7 +276,7 @@ void buscar_por_cpf() {
 /* ===== EXCLUSAO ===== */
 
 void excluir_multa() {
-    limpar_tela();
+    
     printf("=== EXCLUIR MULTA ===\n\n");
 
     if (total == 0) {
@@ -332,7 +322,7 @@ void excluir_multa() {
 /* ===== ALTERAR STATUS ===== */
 
 void alterar_status() {
-    limpar_tela();
+    
     printf("=== ALTERAR STATUS ===\n\n");
 
     int id;
@@ -371,48 +361,12 @@ void alterar_status() {
     pausar();
 }
 
-/* ===== RELATÓRIO RESUMO ===== */
-
-void relatorio_resumo() {
-    limpar_tela();
-    printf("=== RELATORIO RESUMO ===\n\n");
-
-    if (total == 0) {
-        printf("Nenhuma multa cadastrada.\n");
-        pausar();
-        return;
-    }
-
-    int pendentes = 0, pagas = 0, recorridas = 0;
-    float total_valor = 0.0f, total_pendente = 0.0f;
-    int   total_pontos = 0;
-    int i;
-
-    for (i = 0; i < total; i++) {
-        total_valor  += multas[i].valor;
-        total_pontos += multas[i].pontos;
-        if (strcmp(multas[i].status, "Pendente")  == 0) { pendentes++;  total_pendente += multas[i].valor; }
-        else if (strcmp(multas[i].status, "Paga")      == 0) pagas++;
-        else if (strcmp(multas[i].status, "Recorrida") == 0) recorridas++;
-    }
-
-    printf("Total de multas   : %d\n",      total);
-    printf("  Pendentes       : %d\n",      pendentes);
-    printf("  Pagas           : %d\n",      pagas);
-    printf("  Recorridas      : %d\n",      recorridas);
-    printf("\nValor total       : R$ %.2f\n", total_valor);
-    printf("Valor pendente    : R$ %.2f\n", total_pendente);
-    printf("Total de pontos   : %d pontos\n", total_pontos);
-
-    pausar();
-}
-
 /* ===== MENU PRINCIPAL ===== */
 
 void menu_principal() {
     int opcao;
     do {
-        limpar_tela();
+
         printf("========================================\n");
         printf("   SISTEMA DE CADASTRO DE MULTAS v1.0  \n");
         printf("========================================\n\n");
@@ -422,7 +376,6 @@ void menu_principal() {
         printf("  4. Buscar por CPF\n");
         printf("  5. Excluir multa\n");
         printf("  6. Alterar status de pagamento\n");
-        printf("  7. Relatorio resumo\n");
         printf("  0. Sair\n\n");
         printf("Opcao: ");
         scanf(" %d", &opcao);
@@ -434,7 +387,6 @@ void menu_principal() {
             case 4: buscar_por_cpf();   break;
             case 5: excluir_multa();    break;
             case 6: alterar_status();   break;
-            case 7: relatorio_resumo(); break;
             case 0: printf("\nSaindo... Ate logo!\n"); break;
             default: printf("\nOpcao invalida!\n"); pausar();
         }
